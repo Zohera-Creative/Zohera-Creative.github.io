@@ -3,42 +3,525 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zohera Resume</title>
+  <title>Zohera - Front End Developer</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-      background: #f8f8f8;
-      color: #333;
+    :root {
+      --color-beige: #fcf4ec;
+      --color-green: #1c442c;
+      --color-orange: #ff9640;
+      --grid-color: rgba(28, 68, 44, 0.08);
+      --shadow-subtle: 0 2px 8px rgba(28, 68, 44, 0.06);
+      --shadow-medium: 0 4px 16px rgba(28, 68, 44, 0.1);
+      --border-radius: 8px;
     }
-    h1 { color: #222; text-align: center; }
-    h2 { color: #555; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
-    .section { margin-bottom: 25px; }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @font-face {
+      font-family: 'BasierSquareMono';
+      src: url('BasierSquareMono-Regular.woff2') format('woff2'),
+           url('BasierSquareMono-Regular.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      font-family: 'BasierSquareMono', 'Courier New', monospace;
+      line-height: 1.6;
+      color: var(--color-green);
+      background-color: var(--color-beige);
+      background-image: 
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      background-size: 40px 40px;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-medium);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .header {
+      background: var(--color-green);
+      color: white;
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 20px,
+        rgba(255, 150, 64, 0.05) 20px,
+        rgba(255, 150, 64, 0.05) 40px
+      );
+      pointer-events: none;
+    }
+
+    .name {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+      color: white;
+    }
+
+    .title {
+      font-size: 1.25rem;
+      margin-bottom: 32px;
+      font-weight: 400;
+      color: var(--color-orange);
+    }
+
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      font-size: 0.95rem;
+      color: white;
+      opacity: 0.9;
+    }
+
+    .contact-item:hover {
+      opacity: 1;
+      color: var(--color-orange);
+    }
+
+    .contact-item a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .contact-item a:hover {
+      text-decoration: underline;
+    }
+
+    .main-content {
+      padding: 60px 40px;
+    }
+
+    .section {
+      margin-bottom: 60px;
+    }
+
+    .section:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      color: var(--color-green);
+      margin-bottom: 24px;
+      font-weight: 700;
+      position: relative;
+      padding-bottom: 12px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--color-orange);
+    }
+
+    .profile-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--color-green);
+      background: var(--color-beige);
+      padding: 32px;
+      border-radius: var(--border-radius);
+      border-left: 4px solid var(--color-orange);
+    }
+
+    .profile-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--color-green);
+      background: var(--color-beige);
+      padding: 32px;
+      border-radius: var(--border-radius);
+      border-left: 4px solid var(--color-orange);
+    }
+
+    .experience-item, .education-item {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-subtle);
+      border: 1px solid rgba(28, 68, 44, 0.06);
+      transition: all 0.2s ease;
+      border-left: 4px solid var(--color-orange);
+    }
+
+    .experience-item:hover, .education-item:hover {
+      box-shadow: var(--shadow-medium);
+      transform: translateY(-2px);
+    }
+
+    .job-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-green);
+      margin-bottom: 8px;
+    }
+
+    .company {
+      color: var(--color-orange);
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .duration {
+      color: var(--color-green);
+      opacity: 0.7;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    .description {
+      color: var(--color-green);
+      line-height: 1.6;
+      opacity: 0.8;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .skill-category {
+      background: var(--color-beige);
+      padding: 24px;
+      border-radius: var(--border-radius);
+      text-align: center;
+      border: 1px solid rgba(28, 68, 44, 0.06);
+      transition: all 0.2s ease;
+    }
+
+    .skill-category:hover {
+      border-color: var(--color-orange);
+      box-shadow: var(--shadow-subtle);
+      transform: translateY(-2px);
+    }
+
+    .skill-title {
+      font-weight: 700;
+      color: var(--color-green);
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+
+    .skill-list {
+      color: var(--color-green);
+      opacity: 0.8;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--color-orange);
+      color: white;
+      padding: 16px 32px;
+      border-radius: var(--border-radius);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      margin: 8px;
+      font-size: 0.9rem;
+      border: 2px solid var(--color-orange);
+    }
+
+    .btn:hover {
+      background: transparent;
+      color: var(--color-orange);
+      transform: translateY(-2px);
+    }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--color-green);
+      border-color: var(--color-green);
+    }
+
+    .btn.secondary:hover {
+      background: var(--color-green);
+      color: white;
+    }
+
+    .cta-section {
+      text-align: center;
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(28, 68, 44, 0.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      body {
+        padding: 20px 10px;
+      }
+
+      .header {
+        padding: 40px 20px;
+      }
+
+      .name {
+        font-size: 2.5rem;
+      }
+      
+      .contact-info {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+      
+      .main-content {
+        padding: 40px 20px;
+      }
+      
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .experience-item, .education-item {
+        padding: 24px;
+      }
+
+      .section {
+        margin-bottom: 40px;
+      }
+    }
+
+    /* Efectos sutiles de entrada */
+    .container {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .section {
+      opacity: 0;
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+
+    .section:nth-child(1) { animation-delay: 0.1s; }
+    .section:nth-child(2) { animation-delay: 0.2s; }
+    .section:nth-child(3) { animation-delay: 0.3s; }
+    .section:nth-child(4) { animation-delay: 0.4s; }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Accesibilidad */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      
+      .container {
+        box-shadow: none;
+        border: 1px solid #ddd;
+      }
+      
+      .btn {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>Zohrea</h1>
-  <p><strong>Email:</strong>zohera.creative@gmail.com</p>
-  <p><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/tuusuario">linkedin.com/in/Zohera</a></p>
+  <div class="container">
+    <header class="header">
+      <div class="header-content">
+        <h1 class="name">Zohera</h1>
+        <p class="title">Front End Developer & UI/UX Designer</p>
+        <div class="contact-info">
+          <div class="contact-item">
+            <span>📧</span>
+            <a href="mailto:zohera.creative@gmail.com">zohera.creative@gmail.com</a>
+          </div>
+          <div class="contact-item">
+            <span>💼</span>
+            <a href="https://linkedin.com/in/Zohera" target="_blank">LinkedIn</a>
+          </div>
+          <div class="contact-item">
+            <span>💻</span>
+            <a href="https://github.com/tuusuario" target="_blank">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </header>
 
-  <div class="section">
-    <h2>Perfil</h2>
-    <p>Breve resumen sobre ti, tus habilidades y lo que buscas.</p>
+    <main class="main-content">
+      <section class="section">
+        <h2 class="section-title">Perfil Profesional</h2>
+        <div class="profile-text">
+          Desarrolladora Front End recién graduada con un Máster en Desarrollo Front End. Apasionada por crear experiencias web modernas, interactivas y centradas en el usuario. Combino sólidos conocimientos técnicos con sensibilidad para el diseño UI/UX. Busco formar parte de un equipo dinámico donde pueda contribuir con mis habilidades en tecnologías modernas y continuar creciendo profesionalmente.
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Experiencia</h2>
+        
+        <div class="experience-item">
+          <div class="job-title">Desarrolladora Web Front End</div>
+          <div class="company">Proyectos Freelance</div>
+          <div class="duration">2024 - Presente</div>
+          <div class="description">
+            Desarrollo de sitios web responsivos utilizando HTML5, CSS3, JavaScript y frameworks modernos. Implementación de interfaces de usuario intuitivas y optimización para diferentes dispositivos.
+          </div>
+        </div>
+
+        <div class="experience-item">
+          <div class="job-title">Diseñadora Gráfica</div>
+          <div class="company">Empresa X</div>
+          <div class="duration">2022 - 2024</div>
+          <div class="description">
+            Creación de identidades visuales, materiales de marketing digital y diseños para web. Colaboración estrecha con equipos de marketing y desarrollo para garantizar coherencia visual en todos los canales.
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Educación</h2>
+        
+        <div class="education-item">
+          <div class="job-title">Máster en Desarrollo Front End</div>
+          <div class="company">Nombre del Centro</div>
+          <div class="duration">2023 - 2024</div>
+          <div class="description">
+            Formación intensiva en tecnologías modernas de desarrollo web frontend, incluyendo frameworks de JavaScript, metodologías ágiles y mejores prácticas de desarrollo.
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Habilidades Técnicas</h2>
+        <div class="skills-grid">
+          <div class="skill-category">
+            <div class="skill-title">Frontend</div>
+            <div class="skill-list">HTML5<br>CSS3<br>JavaScript ES6+<br>React<br>Vue.js</div>
+          </div>
+          <div class="skill-category">
+            <div class="skill-title">Diseño</div>
+            <div class="skill-list">Figma<br>Adobe Creative Suite<br>UI/UX Design<br>Prototyping</div>
+          </div>
+          <div class="skill-category">
+            <div class="skill-title">Herramientas</div>
+            <div class="skill-list">Git & GitHub<br>Webpack<br>Sass/SCSS<br>NPM/Yarn</div>
+          </div>
+          <div class="skill-category">
+            <div class="skill-title">Metodologías</div>
+            <div class="skill-list">Responsive Design<br>SEO<br>Scrum/Agile<br>Testing</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="cta-section">
+        <a href="mailto:zohera.creative@gmail.com" class="btn">Contactar</a>
+        <a href="#" class="btn secondary">Descargar CV</a>
+      </div>
+    </main>
   </div>
 
-  <div class="section">
-    <h2>Experiencia</h2>
-    <ul>
-      <li><strong>Diseñador Gráfico</strong> – Empresa X (2022-2024)</li>
-      <li><strong>Desarrollador Web</strong> – Proyecto Freelance (2024)</li>
-    </ul>
-  </div>
+  <script>
+    // Intersección observer para animaciones al scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
 
-  <div class="section">
-    <h2>Educación</h2>
-    <p>Grado / Curso relevante – Nombre del centro</p>
-  </div>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Observar todas las secciones
+    document.querySelectorAll('.section').forEach(section => {
+      observer.observe(section);
+    });
+
+    // Smooth scroll mejorado
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Fallback para la fuente personalizada
+    document.fonts.ready.then(() => {
+      if (!document.fonts.check('16px BasierSquareMono')) {
+        console.log('Fuente BasierSquareMono no encontrada, usando fallback');
+      }
+    });
+  </script>
 </body>
 </html>
